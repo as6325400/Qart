@@ -225,6 +225,23 @@ class Encode:
         
         ################################### block ###################################
         
+        ################################### remainder bits ###################################
+        
+        version_to_zeros = {
+            range(2, 7): 7,
+            range(14, 21): 3,
+            range(21, 28): 4,
+            range(28, 35): 3,
+        }
+
+        
+        for version_range, zeros in version_to_zeros.items():
+            if self.version in version_range:
+                self.__code += "0" * zeros
+                break  
+        
+        ################################### remainder bits ###################################
+        
         
         
         

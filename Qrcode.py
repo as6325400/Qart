@@ -5,7 +5,6 @@ from Table import VersionTable, NormalLocationPoint, AlignmentPatternTable, ECCF
 
 
 class Qrcode(Encode, Canvas):
-
     __versionTable = VersionTable
     __NormalLocationPoint = NormalLocationPoint
     __AlignmentPatternTable = AlignmentPatternTable
@@ -65,13 +64,14 @@ class Qrcode(Encode, Canvas):
     def __SetAlignmentPattern(self):
         for i in Qrcode.__AlignmentPatternTable[str(self.version)]:
             for j in Qrcode.__AlignmentPatternTable[str(self.version)]:
-                if i <= 7 or j <= 7:
-                    continue
                 for k in range(-2, 3):
                     for l in range(-2, 3):
-                        if(k == 0 and l == 0):
+                        if i < 7 and j < 7: continue
+                        elif i > self.size - 8 and j < 7: continue
+                        elif i < 7 and j > self.size - 8: continue
+                        if k == 0 and l == 0:
                             self.SetBlack(i, j)
-                        elif (k == -2 or k == 2 or l == -2 or l == 2):
+                        elif k == -2 or k == 2 or l == -2 or l == 2:
                             self.SetBlack(i + k, j + l)
                         else:
                             self.SetWhite(i + k, j + l)
@@ -101,6 +101,23 @@ class Qrcode(Encode, Canvas):
                 self.SetWhite(x, y)
         return
     
+    def __SetDataPattern(self):
+        data = self._Encode__code
+        length = self.version * 4 + 17
+        count = 0
+        for i in range(length - 1, -1, -1):
+            for j in range(length - 1, -1, -1):
+                if self.QR[i][j] != 0 and self.QR[i][j] != 255:
+                    count += 1
+                    continue
+                # if data[0] == "1":
+                #     self.SetBlack(i, j)
+                # else:
+                #     self.SetWhite(i, j)
+                # data = data[1:]
+        print(count, len(data))
+        return
+    
     def __QrcodeHandler(self, mode = "Normal", mask = 0):
         
         self.__SetPositionPattern(mode)
@@ -109,6 +126,7 @@ class Qrcode(Encode, Canvas):
         self.__SetTimingPattern()
         self.__SetAlignmentPattern()
         self.__SetFormatPattern(self.ECC, mask)
+        self.__SetDataPattern()
         
         ## Set Black point
         
