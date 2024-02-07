@@ -17,8 +17,8 @@ class Qrcode(Encode):
 
     
 
-q = Qrcode("wdawd")
-q.generate(2, "M")
+q = Qrcode("YEECY")
+q.generate(1, "Q")
 
-print(q.error_correction())
+
 

@@ -213,7 +213,7 @@ ModeIndicatorTable = {
     "Kanji": "1000"
 }
 
-PerBlock = {
+PerBlockTable = {
     "1":{
         "L":{
             "num_block_g1": 1,

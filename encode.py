@@ -1,5 +1,5 @@
 from Error import *
-from Table import VersionTable, ModeIndicatorTable, PerBlock
+from Table import VersionTable, ModeIndicatorTable, PerBlockTable
 import reedsolo as rs
 
 rs.init_tables(0x11D)
@@ -17,7 +17,7 @@ class Encode:
     
     __mode_indicator_table = ModeIndicatorTable
     
-    __per_block = PerBlock
+    __per_block = PerBlockTable
     
     __prim = rs.find_prime_polys(c_exp=8, fast_primes=False, single=True)
     
@@ -33,7 +33,6 @@ class Encode:
         self.__terminator = ""
         self.__code = ""
         self.__padding = ""
-        self.__length : int
         if self.__EncodeModeController() != True:
             raise EncodeError("The text is not valid")
         return
@@ -140,6 +139,13 @@ class Encode:
         integers = integers[len(number_list):]
         return integers
     
+    def __binary_to_int(self, binary: str):
+        
+        if len(binary) % 8 != 0:
+            raise ValueError("binary length must be a multiple of 8")
+        
+        return [int(binary[i:i+8], 2) for i in range(0, len(binary), 8)]
+    
     def __generate(self, version: int, ECC: str):
         self.version = version
         self.ECC = ECC
@@ -179,7 +185,48 @@ class Encode:
             self.__padding += paddingTable[:paddingNeed % 16]
         
         self.__code += self.__padding
-        self.__length = len(self.__code) // 8
+        
+        ################################### block ###################################
+        
+        int_code = self.__binary_to_int(self.__code)
+        PerBlock = PerBlockTable[str(version)][ECC]
+        
+        if(len(int_code) != PerBlock["num_dc_per_block_g1"] * PerBlock["num_block_g1"] + PerBlock["num_dc_per_block_g2"] * PerBlock["num_block_g2"]):
+            raise ValueError("The length of the data code is not correct")
+        
+        temp_data = []
+        temp_ecc = []
+        idx = 0
+        for num_blocks, block_size in [(PerBlock["num_block_g1"], PerBlock["num_dc_per_block_g1"]), 
+                                    (PerBlock["num_block_g2"], PerBlock["num_dc_per_block_g2"])]:
+            for _ in range(num_blocks):
+                temp_data.append(int_code[idx:idx + block_size])
+                idx += block_size
+                
+        for i in temp_data:
+            temp_ecc.append(self.__error_correction(i))
+            
+        temp_merge = []
+        
+        for i in range(max(PerBlock["num_dc_per_block_g1"], PerBlock["num_dc_per_block_g2"])):
+            for j in range(len(temp_data)):
+                if i < len(temp_data[j]):
+                    temp_merge.append(temp_data[j][i])
+                else:
+                    continue
+                
+        for i in range(PerBlock["num_ecc"]):
+            for j in range(len(temp_ecc)):
+                temp_merge.append(temp_ecc[j][i])
+                
+        self.__code = "".join(format(num, '08b') for num in temp_merge)
+        
+        print(self.__code)
+        
+        ################################### block ###################################
+        
+        
+        
         
         
         
