@@ -221,7 +221,6 @@ class Encode:
                 
         self.__code = "".join(format(num, '08b') for num in temp_merge)
         
-        print(self.__code)
         
         ################################### block ###################################
         
@@ -237,6 +236,7 @@ class Encode:
         
         for version_range, zeros in version_to_zeros.items():
             if self.version in version_range:
+                print("zero", zeros)
                 self.__code += "0" * zeros
                 break  
         

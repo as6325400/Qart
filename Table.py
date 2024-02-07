@@ -1962,8 +1962,67 @@ PerBlockTable = {
             "num_dc_per_block_g2": 16,
             "num_ecc": 28
         }
+    },
+    "21":{
+        "L":{
+            "num_block_g1": 4,
+            "num_dc_per_block_g1": 116,
+            "num_block_g2": 4,
+            "num_dc_per_block_g2": 117,
+            "num_ecc": 28
+        },
+        "M":{
+            "num_block_g1": 17,
+            "num_dc_per_block_g1": 42,
+            "num_block_g2": 0,
+            "num_dc_per_block_g2": 0,
+            "num_ecc": 26
+        },
+        "Q":{
+            "num_block_g1": 17,
+            "num_dc_per_block_g1": 22,
+            "num_block_g2": 6,
+            "num_dc_per_block_g2": 23,
+            "num_ecc": 28
+        },
+        "H":{
+            "num_block_g1": 19,
+            "num_dc_per_block_g1": 16,
+            "num_block_g2": 6,
+            "num_dc_per_block_g2": 17,
+            "num_ecc": 30
+        }
+    },
+    "22":{
+        "L":{
+            "num_block_g1": 2,
+            "num_dc_per_block_g1": 111,
+            "num_block_g2": 7,
+            "num_dc_per_block_g2": 112,
+            "num_ecc": 28
+        },
+        "M":{
+            "num_block_g1": 17,
+            "num_dc_per_block_g1": 46,
+            "num_block_g2": 0,
+            "num_dc_per_block_g2": 0,
+            "num_ecc": 26
+        },
+        "Q":{
+            "num_block_g1": 7,
+            "num_dc_per_block_g1": 24,
+            "num_block_g2": 16,
+            "num_dc_per_block_g2": 25,
+            "num_ecc": 28
+        },
+        "H":{
+            "num_block_g1": 34,
+            "num_dc_per_block_g1": 13,
+            "num_block_g2": 0,
+            "num_dc_per_block_g2": 0,
+            "num_ecc": 30
+        }
     }
-    
 }
 
 
@@ -2072,4 +2131,21 @@ def ECCFomatSiteTable(version: int):
         "8," + str(length - 1): 14
     }
     return Table
+############################################################################################
+
+############################################################################################
+
+VersionBitTable = {
+    7: "000111110010010100",
+    8: "001000010110111100",
+    9: "001001101010011001",
+    10: "001010010011010011",
+    11: "001011101111110110",
+    12: "001100011101100010",
+    13: "001101100001000111",
+    14: "001110011000001101",
+    15: "001111100100101000"
+}
+
+
 ############################################################################################

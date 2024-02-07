@@ -1,7 +1,8 @@
 from encode import Encode
 from canvas import Canvas
-from Table import VersionTable, NormalLocationPoint, AlignmentPatternTable, ECCFomatSiteTable, ECCFomatTable
-
+import numpy as np
+from Table import VersionTable, NormalLocationPoint, AlignmentPatternTable, ECCFomatSiteTable, ECCFomatTable, VersionBitTable
+from time import sleep
 
 
 class Qrcode(Encode, Canvas):
@@ -9,6 +10,7 @@ class Qrcode(Encode, Canvas):
     __NormalLocationPoint = NormalLocationPoint
     __AlignmentPatternTable = AlignmentPatternTable
     __ECCFormatTable = ECCFomatTable
+    __VersionBitTable = VersionBitTable
     
     def __init__(self, Text):
         super().__init__(Text)
@@ -16,6 +18,10 @@ class Qrcode(Encode, Canvas):
     
     def generate(self, version: int, error_correction: str, mask: int = 0, mode = "Normal"):
         self.ECCFomatSiteTable = ECCFomatSiteTable(version)
+        self.size = version * 4 + 17
+        self.QRDataAttribute = np.zeros((self.size, self.size), dtype = np.uint8)
+        
+        
         self._Encode__generate(version, error_correction)
         self._Canvas__resize(Qrcode.__versionTable[str(version)]["moudles"])
         self.__QrcodeHandler(mode, mask=mask)
@@ -78,6 +84,16 @@ class Qrcode(Encode, Canvas):
         return
     
     def __SetVersionPattern(self):
+        if self.version < 7: return
+        versionBit = Qrcode.__VersionBitTable[self.version]
+        
+        idx = 0
+        for i in range(5, -1, -1):
+            for j in range(self.size - 9, self.size - 12, -1):
+                self.SetBlack(i, j) if versionBit[idx] == "1" else self.SetWhite(i, j)
+                self.SetBlack(j, i) if versionBit[idx] == "1" else self.SetWhite(j, i)
+                idx += 1
+        
         return
     
     def __SetFormatPattern(self, ECC: str, mask: int):
@@ -104,19 +120,70 @@ class Qrcode(Encode, Canvas):
     def __SetDataPattern(self):
         data = self._Encode__code
         length = self.version * 4 + 17
+        cc = 0
         count = 0
-        for i in range(length - 1, -1, -1):
-            for j in range(length - 1, -1, -1):
-                if self.QR[i][j] != 0 and self.QR[i][j] != 255:
-                    count += 1
-                    continue
-                # if data[0] == "1":
-                #     self.SetBlack(i, j)
-                # else:
-                #     self.SetWhite(i, j)
-                # data = data[1:]
-        print(count, len(data))
+        flag = 0
+        for i in range(length - 1, -1, -2):
+            if flag == 0:
+                for j in range(length - 1, -1, -1):
+                    for k in range(i, i - 2, -1):
+                        if self.QR[j][k] != 128:
+                            continue
+                        if data[count] == "1":
+                            self.SetBlack(j, k)
+                        else:
+                            self.SetWhite(j, k)
+                        self.QRDataAttribute[j][k] = 10
+                        count += 1
+                flag = (flag + 1) % 2
+            else:
+                for j in range(0, length, 1):
+                    for k in range(i, i - 2, -1):
+                        if self.QR[j][k] != 128:
+                            continue
+                        if data[count] == "1":
+                            self.SetBlack(j, k)
+                        else:
+                            self.SetWhite(j, k)
+                        self.QRDataAttribute[j][k] = 10
+                        count += 1
+                flag = (flag + 1) % 2
+            if i == 8:
+                i -= 1
+                
         return
+    
+    def __SetMask(self):
+        length = self.version * 4 + 17
+        for i in range(length):
+            for j in range(length):
+                if self.QRDataAttribute[i][j] == 10:
+                    bit : int = 1
+                    if self.mask == 0:
+                        if (i + j) % 2 == 0: bit = 0
+                    elif self.mask == 1:
+                        if i % 2 == 0: bit = 0
+                    elif self.mask == 2:
+                        if j % 3 == 0: bit = 0
+                    elif self.mask == 3:
+                        if (i + j) % 3 == 0: bit = 0
+                    elif self.mask == 4:
+                        if (i // 2 + j // 3) % 2 == 0: bit = 0
+                    elif self.mask == 5:
+                        if (i * j) % 2 + (i * j) % 3 == 0: bit = 0
+                    elif self.mask == 6:
+                        if ((i * j) % 2 + (i * j) % 3) % 2 == 0: bit = 0
+                    elif self.mask == 7:
+                        if ((i + j) % 2 + (i * j) % 3) % 2 == 0: bit = 0
+                    
+                    old = 1
+                    if self.QR[i][j] == 0:
+                        old = 0
+                    color = old ^ bit
+                    self.SetBlack(i, j) if color == 1 else self.SetWhite(i, j)
+    
+        return
+        
     
     def __QrcodeHandler(self, mode = "Normal", mask = 0):
         
@@ -125,8 +192,10 @@ class Qrcode(Encode, Canvas):
         self.__SerBlackMoudle()
         self.__SetTimingPattern()
         self.__SetAlignmentPattern()
+        self.__SetVersionPattern()
         self.__SetFormatPattern(self.ECC, mask)
         self.__SetDataPattern()
+        self.__SetMask()
         
         ## Set Black point
         
