@@ -24,6 +24,11 @@ class Canvas:
         self.QR[x][y] = 255
         return
     
+    def GetColor(self, x: int, y: int):
+        if(x < 0 and x >= len(self.QR) and y < 0 and y >= len(self.QR)):
+            raise ValueError("The coordinate is out of range")
+        return 0 if self.QR[x][y] == 0 else 1
+    
     def show(self):
         plt.imshow(self.QR, cmap='gray')  # 'cmap' 參數控制著色映射，'gray' 表示灰階
         plt.colorbar()  # 顯示色條

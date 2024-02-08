@@ -33,6 +33,8 @@ class Encode:
         self.__terminator = ""
         self.__code = ""
         self.__padding = ""
+        self.StartPadding: int
+        self.StartEcc: int
         if self.__EncodeModeController() != True:
             raise EncodeError("The text is not valid")
         return
@@ -185,10 +187,19 @@ class Encode:
             self.__padding += paddingTable[:paddingNeed % 16]
         
         self.__code += self.__padding
-        
+        print("origin", len(self.__code))
         ################################### block ###################################
         
-        int_code = self.__binary_to_int(self.__code)
+        paddingLength = len(self.__padding) // 8
+        temp = self.__binary_to_int(self.__code)
+        int_code = []
+        for i in range(len(temp)):
+            int_code.append({
+                "idx": i,
+                "data": temp[i]
+                })
+        tag = ['d' if i < len(int_code) - paddingLength else 'p' for i in range(len(int_code))]
+        print(len(tag))
         PerBlock = PerBlockTable[str(version)][ECC]
         
         if(len(int_code) != PerBlock["num_dc_per_block_g1"] * PerBlock["num_block_g1"] + PerBlock["num_dc_per_block_g2"] * PerBlock["num_block_g2"]):
@@ -196,15 +207,18 @@ class Encode:
         
         temp_data = []
         temp_ecc = []
+        temp_tag = []
+        temp_merge_tag = []
         idx = 0
         for num_blocks, block_size in [(PerBlock["num_block_g1"], PerBlock["num_dc_per_block_g1"]), 
                                     (PerBlock["num_block_g2"], PerBlock["num_dc_per_block_g2"])]:
             for _ in range(num_blocks):
                 temp_data.append(int_code[idx:idx + block_size])
+                temp_tag.append(tag[idx:idx + block_size])
                 idx += block_size
                 
         for i in temp_data:
-            temp_ecc.append(self.__error_correction(i))
+            temp_ecc.append(self.__error_correction([j["data"] for j in i]))
             
         temp_merge = []
         
@@ -212,14 +226,30 @@ class Encode:
             for j in range(len(temp_data)):
                 if i < len(temp_data[j]):
                     temp_merge.append(temp_data[j][i])
+                    temp_merge_tag.append(temp_tag[j][i])
                 else:
                     continue
                 
         for i in range(PerBlock["num_ecc"]):
             for j in range(len(temp_ecc)):
-                temp_merge.append(temp_ecc[j][i])
+                temp_merge.append({
+                    "idx": len(temp_merge),
+                    "data": temp_ecc[j][i]
+                    }
+                )
+                temp_merge_tag.append('e')
+        
+        print(temp_merge)
+        self.__code = "".join(format(num['data'], '08b') for num in temp_merge)
+        self.__tag = "".join(item * 8 for item in temp_merge_tag)
+        self.order = []
+        
+        for i in temp_merge:
+            for j in range(8):
+                self.order.append(i["idx"] * 8 + j)
                 
-        self.__code = "".join(format(num, '08b') for num in temp_merge)
+        print(len(self.__code), len(self.__tag))
+        print(self.__tag)
         
         
         ################################### block ###################################
@@ -233,13 +263,19 @@ class Encode:
             range(28, 35): 3,
         }
 
+        print("old order len", len(self.order))
         
         for version_range, zeros in version_to_zeros.items():
             if self.version in version_range:
                 print("zero", zeros)
                 self.__code += "0" * zeros
+                self.__tag += "r" * zeros
+                for _ in range(zeros):
+                    self.order.append(self.order[-1] + 1)
+                    print(self.order[-1])
                 break  
-        
+        # print(self.order)
+        print("new order len", len(self.order))
         ################################### remainder bits ###################################
         
         
