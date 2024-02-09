@@ -2,18 +2,29 @@ from .qrcode import Qrcode
 import numpy as np
 import math
 from .img import Img
+import cv2
 from matplotlib import pyplot as plt
+from .Error import *
 
 class Qart(Qrcode, Img):
     
-    def __init__(self, Text):
-        super().__init__(Text)
+    def __init__(self, arg):
+        if isinstance(arg, str):
+            super().__init__(arg)
+        elif isinstance(arg, np.ndarray):
+            qrcode = cv2.QRCodeDetector()
+
+            data, bbox, rectified = qrcode.detectAndDecode(Qrcode("Accept").generate(1, "L", 0, "Normal"))
+            if bbox is None:
+                raise EncodeError("Cant detect QR code from the image")
+            super().__init__(data)
+            
         return
         
     def generate(self, path: str, version: int, error_correction: str, mask: int = 0, mode = "Normal"):
         self._Qrcode__dataload(version, error_correction, mask, mode)
         self.Binaryimage = Img.image2moudlebase((version * 4 + 17), path=path)
-        self.__QartHandler(mode, mask=mask)
+        return self.__QartHandler(mode, mask=mask)
     
     def GetBinaryImage(self, i, j):
         return 0 if self.Binaryimage[i][j] == 0 else 1

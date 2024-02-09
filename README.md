@@ -1,5 +1,7 @@
 # A package to blend image and Qrcode
 
+This version use cv2 package to finish decode qrcode
+
 ## Install
 
 ```py
@@ -39,11 +41,10 @@ pip install Qart
 ### Qart 
 
 1. **Create Object**
-    To create an object where the constructor takes a string that you want to encode
+    To create an object where the constructor takes a string or numpy array that you want to encode
 
     ```py
     from Qart import Qart
-
     Qr = Qart("Accepted")
     ```
 

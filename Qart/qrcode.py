@@ -36,6 +36,7 @@ class Qrcode(Encode, Canvas):
     def generate(self, version: int, error_correction: str, mask: int = 0, mode = "Normal"):
         self.__dataload(version, error_correction, mask, mode)
         self.__QrcodeHandler(mode, mask=mask)
+        return self.QR
         
     def __SetPositionPattern(self, mode = "Normal"):
         shift = self.size - 7
