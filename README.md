@@ -82,5 +82,5 @@ pip install Qart
             
    ```py
    from Qart import Image
-   img = Image("1.png")
+   img.show("OTSU")
    ```
