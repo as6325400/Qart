@@ -148,50 +148,11 @@ class Encode:
         
         return [int(binary[i:i+8], 2) for i in range(0, len(binary), 8)]
     
-    def __generate(self, version: int, ECC: str):
-        self.version = version
-        self.ECC = ECC
-        if version < 1 or version > 40:
-            raise ValueError("Version must be between 1 and 40")
-        
-        if ECC not in ["L", "M", "Q", "H"]:
-            raise ValueError("ECC must be L, M, Q, or H")
-        
-        table = Encode.__versionTable[str(version)]["ECC"][ECC]
-        
-        if len(self.GetText()) > table[self.GetEncodeMode()]:
-            raise ValueError("Input data too large for specified version and ECC")
-         
-        self.__mode_indicator = Encode.__mode_indicator_table[self.GetEncodeMode()]
-        self.__char_length_indicator = format(len(self.GetText()), 'b').zfill(self.__character_count_indicator(version, self.GetEncodeMode()))
-        self.__code = self.__mode_indicator + self.__char_length_indicator + self.__GetEncodeText()
-        
-        if table["databits"] - len(self.__code) >= 4:
-            self.__terminator = "0000"
-        
-        elif table["databits"] - len(self.__code) >= 2:
-            self.__terminator = "00"
-        
-        self.__code += self.__terminator 
-        
-        if table["databits"] - len(self.__code) > 0:
-            
-            if len(self.__code) % 8 != 0:
-                self.__padding = "0" * (8 - (len(self.__code) % 8))
-            
-            
-            paddingTable = "1110110000010001"
-            paddingNeed = table["databits"] - len(self.__code) - len(self.__padding)
-            
-            self.__padding += (paddingNeed // 16) * paddingTable
-            self.__padding += paddingTable[:paddingNeed % 16]
-        
-        self.__code += self.__padding
-        print("origin", len(self.__code))
-        ################################### block ###################################
-        
+    def __block__encode(self, version: int, ECC: str, code: str):
+        self.__code = code
         paddingLength = len(self.__padding) // 8
         temp = self.__binary_to_int(self.__code)
+        # print(temp)
         int_code = []
         for i in range(len(temp)):
             int_code.append({
@@ -199,7 +160,7 @@ class Encode:
                 "data": temp[i]
                 })
         tag = ['d' if i < len(int_code) - paddingLength else 'p' for i in range(len(int_code))]
-        print(len(tag))
+        # print(len(tag))
         PerBlock = PerBlockTable[str(version)][ECC]
         
         if(len(int_code) != PerBlock["num_dc_per_block_g1"] * PerBlock["num_block_g1"] + PerBlock["num_dc_per_block_g2"] * PerBlock["num_block_g2"]):
@@ -239,7 +200,7 @@ class Encode:
                 )
                 temp_merge_tag.append('e')
         
-        print(temp_merge)
+        # print(temp_merge)
         self.__code = "".join(format(num['data'], '08b') for num in temp_merge)
         self.__tag = "".join(item * 8 for item in temp_merge_tag)
         self.order = []
@@ -248,14 +209,10 @@ class Encode:
             for j in range(8):
                 self.order.append(i["idx"] * 8 + j)
                 
-        print(len(self.__code), len(self.__tag))
-        print(self.__tag)
+        # print(len(self.__code), len(self.__tag))
+        # print(self.__tag)
         
-        
-        ################################### block ###################################
-        
-        ################################### remainder bits ###################################
-        
+    def __remainder_bits(self, version: int, ECC: str):
         version_to_zeros = {
             range(2, 7): 7,
             range(14, 21): 3,
@@ -263,19 +220,70 @@ class Encode:
             range(28, 35): 3,
         }
 
-        print("old order len", len(self.order))
+        # print("old order len", len(self.order))
         
         for version_range, zeros in version_to_zeros.items():
             if self.version in version_range:
-                print("zero", zeros)
+                # print("zero", zeros)
                 self.__code += "0" * zeros
                 self.__tag += "r" * zeros
                 for _ in range(zeros):
                     self.order.append(self.order[-1] + 1)
-                    print(self.order[-1])
+                    # print(self.order[-1])
                 break  
+        
+    
+    def __generate(self, version: int, ECC: str):
+        self.version = version
+        self.ECC = ECC
+        if version < 1 or version > 40:
+            raise ValueError("Version must be between 1 and 40")
+        
+        if ECC not in ["L", "M", "Q", "H"]:
+            raise ValueError("ECC must be L, M, Q, or H")
+        
+        table = Encode.__versionTable[str(version)]["ECC"][ECC]
+        
+        if len(self.GetText()) > table[self.GetEncodeMode()]:
+            raise ValueError("Input data too large for specified version and ECC")
+         
+        self.__mode_indicator = Encode.__mode_indicator_table[self.GetEncodeMode()]
+        self.__char_length_indicator = format(len(self.GetText()), 'b').zfill(self.__character_count_indicator(version, self.GetEncodeMode()))
+        self.__code = self.__mode_indicator + self.__char_length_indicator + self.__GetEncodeText()
+        
+        if table["databits"] - len(self.__code) >= 4:
+            self.__terminator = "0000"
+        
+        elif table["databits"] - len(self.__code) >= 2:
+            self.__terminator = "00"
+        
+        self.__code += self.__terminator 
+        
+        if table["databits"] - len(self.__code) > 0:
+            
+            if len(self.__code) % 8 != 0:
+                self.__padding = "0" * (8 - (len(self.__code) % 8))
+            
+            
+            paddingTable = "1110110000010001"
+            paddingNeed = table["databits"] - len(self.__code) - len(self.__padding)
+            
+            self.__padding += (paddingNeed // 16) * paddingTable
+            self.__padding += paddingTable[:paddingNeed % 16]
+        
+        self.__code += self.__padding
+        # print("origin", len(self.__code))
+        ################################### block ###################################
+        # print("origin", len(self.__code), self.__code)
+        self.__block__encode(version, ECC, self.__code)
+        
+        ################################### block ###################################
+        
+        ################################### remainder bits ###################################
+        
+        self.__remainder_bits(version, ECC)
         # print(self.order)
-        print("new order len", len(self.order))
+        # print("new order len", len(self.order))
         ################################### remainder bits ###################################
         
         

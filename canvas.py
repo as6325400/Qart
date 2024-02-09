@@ -13,19 +13,19 @@ class Canvas:
         return
     
     def SetBlack(self, x: int, y: int):
-        if(x < 0 and x >= len(self.QR) and y < 0 and y >= len(self.QR)):
+        if(x < 0 or x >= len(self.QR) or y < 0 or y >= len(self.QR)):
             raise ValueError("The coordinate is out of range")
         self.QR[x][y] = 0
         return
     
     def SetWhite(self, x: int, y: int):
-        if(x < 0 and x >= len(self.QR) and y < 0 and y >= len(self.QR)):
+        if(x < 0 or x >= len(self.QR) or y < 0 or y >= len(self.QR)):
             raise ValueError("The coordinate is out of range")
         self.QR[x][y] = 255
         return
     
     def GetColor(self, x: int, y: int):
-        if(x < 0 and x >= len(self.QR) and y < 0 and y >= len(self.QR)):
+        if(x < 0 or x >= len(self.QR) or y < 0 or y >= len(self.QR)):
             raise ValueError("The coordinate is out of range")
         return 0 if self.QR[x][y] == 0 else 1
     
