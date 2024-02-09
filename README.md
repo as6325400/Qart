@@ -22,8 +22,8 @@ pip install Qart
 2. **Generate**
     - The first parameter is the version of the QR code to be generated.
     - The second parameter is the error correction level of the QR code to be generated.
-    - The third parameter is the version of the mask. (option)
-    - The fourth parameter is the mode of the positioning point. (option)
+    - The third parameter is the version of the mask 0 ~ 7. (option)
+    - The fourth parameter is the mode of the positioning point can use "Normal" and "Micro". (option)
 
     ```py
     Qr.generate(6, "L", mask = 0, mode = "Normal")
@@ -51,8 +51,8 @@ pip install Qart
     - The first parameter is the path of the image to be merged.
     - The second parameter is the version of the QR code to be generated.
     - The third parameter is the error correction level of the QR code to be generated.
-    - The fourth parameter is the version of the mask. (option)
-    - The fifth parameter is the mode of the positioning point. (option)
+    - The fourth parameter is the version of the mask 0 ~ 7. (option)
+    - The fifth parameter is the mode of the positioning point can use "Normal" and "Micro". (option)
 
     ```py
     Qr.generate("img.png", 6, "L", mask = 0, mode = "Normal")
@@ -65,3 +65,22 @@ pip install Qart
     Qr.show()
     ```
 
+### Image
+
+1. **Load Image**
+   ```py
+   from Qart import Image
+   img = Image("1.png")
+   ```
+3. **Set Moudlenums (option)**
+   ```py
+   from Qart import Image
+   img.SetModuleNums(MoudleNums: int)
+   ```
+4. **Show**
+   Four mode, "RGB" "Grayscale" "OTSU" "Modulebase"
+            
+   ```py
+   from Qart import Image
+   img = Image("1.png")
+   ```

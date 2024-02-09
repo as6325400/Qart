@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import sys
 import math
+import matplotlib.pyplot as plt
 
 
 class Img:
@@ -116,3 +117,27 @@ class Img:
         image = Img.OTSU(image)[0]
         image = Img.module_based_binarization(image, moudlesnum)
         return image
+    
+class Image(Img):
+    def __init__(self, path: str):
+        self.path = path
+        self.image = self.read(path)
+        self.grayscale = self.Grayscale(self.image)
+        self.otsu = self.OTSU(self.grayscale)[0]
+        self.modulebase = self.module_based_binarization(self.otsu, 50)
+        return
+    
+    def SetModuleNums(self, moudlesnum):
+        self.modulebase = self.module_based_binarization(self.otsu, moudlesnum)
+        return
+    
+    def show(self, mode = "RGB"):
+        if mode == "RGB":
+            plt.imshow(self.image)
+        elif mode == "Grayscale":
+            plt.imshow(self.grayscale, cmap='gray')
+        elif mode == "OTSU":
+            plt.imshow(self.otsu, cmap='gray')
+        elif mode == "Modulebase":
+            plt.imshow(self.modulebase, cmap='gray')
+        plt.show()
