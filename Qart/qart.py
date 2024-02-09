@@ -1,7 +1,7 @@
-from qrcode import Qrcode
+from .qrcode import Qrcode
 import numpy as np
 import math
-from img import Img
+from .img import Img
 from matplotlib import pyplot as plt
 
 class Qart(Qrcode, Img):

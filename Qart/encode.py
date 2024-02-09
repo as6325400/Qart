@@ -1,5 +1,5 @@
-from Error import *
-from Table import VersionTable, ModeIndicatorTable, PerBlockTable
+from .Error import *
+from .Table import VersionTable, ModeIndicatorTable, PerBlockTable
 import reedsolo as rs
 
 rs.init_tables(0x11D)

@@ -1,3 +1,10 @@
 **/__pycache__/
 test.ipynb
 test.*
+.env
+build/
+dist/
+*.egg-info/
+**/test.*
+MANIFEST.in
+setup.py

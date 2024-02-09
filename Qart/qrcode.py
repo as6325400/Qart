@@ -1,13 +1,14 @@
-from encode import Encode
-from canvas import Canvas
+from .encode import Encode
+from .canvas import Canvas
 import numpy as np
-from Table import VersionTable, NormalLocationPoint, AlignmentPatternTable, ECCFomatSiteTable, ECCFomatTable, VersionBitTable
+from .Table import VersionTable, NormalLocationPoint, AlignmentPatternTable, ECCFomatSiteTable, ECCFomatTable, VersionBitTable, MicroLocationPoint
 import matplotlib.pyplot as plt
 
 
 class Qrcode(Encode, Canvas):
     __versionTable = VersionTable
     __NormalLocationPoint = NormalLocationPoint
+    __MicroLocationPoint = MicroLocationPoint
     __AlignmentPatternTable = AlignmentPatternTable
     __ECCFormatTable = ECCFomatTable
     __VersionBitTable = VersionBitTable
@@ -42,6 +43,8 @@ class Qrcode(Encode, Canvas):
         
         if mode == "Normal":
             PointSet = Qrcode.__NormalLocationPoint
+        elif mode == "Micro":
+            PointSet = Qrcode.__MicroLocationPoint
             
         for i in PointSet:
             if i[2] == 1:
