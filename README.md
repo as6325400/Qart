@@ -9,7 +9,7 @@ pip install Qart
 
 ## Usage
 
-### Getmask
+### InformationMask
 
 if object inherit Qrcode can use this method
 

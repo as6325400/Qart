@@ -203,7 +203,7 @@ class Qrcode(Encode, Canvas):
                         cc += 1
                         self.QRdataBits[j][k] = count
                         self.tagTable[j][k] = tag_values[self._Encode__tag[count]]
-                        self.Mask[j][k] = tag_values[self._Encode__tag[count] + 1]
+                        self.Mask[j][k] = tag_values[self._Encode__tag[count]] + 1
                         # self.show()
                         count += 1
                 flag = (flag + 1) % 2
@@ -219,7 +219,7 @@ class Qrcode(Encode, Canvas):
                         cc += 1
                         self.QRdataBits[j][k] = count
                         self.tagTable[j][k] = tag_values[self._Encode__tag[count]]
-                        self.Mask[j][k] = tag_values[self._Encode__tag[count] + 1]
+                        self.Mask[j][k] = tag_values[self._Encode__tag[count]] + 1
                         # self.show()
                         count += 1
                 flag = (flag + 1) % 2
@@ -304,7 +304,7 @@ class Qrcode(Encode, Canvas):
         
         return self.QR
     
-    def GetMask(self):
+    def InformationMask(self):
         return self.mask
     
     
