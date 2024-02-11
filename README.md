@@ -1,6 +1,5 @@
 # A package to blend image and Qrcode
 
-This version use cv2 package to finish decode qrcode
 
 ## Install
 
@@ -9,6 +8,23 @@ pip install Qart
 ```
 
 ## Usage
+
+### Getmask
+
+if object inherit Qrcode can use this method
+
+Return a numpy array sizeof module nums
+
+
+1. if mask[i][j] == 0，this point is cannot be changed
+2. if mask[i][j] == 1，this point is dont care
+3. if mask[i][j] == 2，this point is padding
+4. if mask[i][j] == 3，this point is data
+5. if mask[i][j] == 4，this point is ecc
+6. if mask[i][j] == 4，this point remain bits
+
+
+in short, if mask[i][j] == [1, 2, 4], this point can change
 
 ### Qrcode
 
