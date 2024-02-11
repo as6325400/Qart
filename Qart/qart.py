@@ -9,18 +9,9 @@ from .Error import *
 class Qart(Qrcode, Img):
     
     def __init__(self, arg):
-        if isinstance(arg, str):
-            super().__init__(arg)
-        elif isinstance(arg, np.ndarray):
-            qrcode = cv2.QRCodeDetector()
-
-            data, bbox, rectified = qrcode.detectAndDecode(Qrcode("Accept").generate(1, "L", 0, "Normal"))
-            if bbox is None:
-                raise EncodeError("Cant detect QR code from the image")
-            super().__init__(data)
-            
+        super().__init__(arg)
         return
-        
+    
     def generate(self, path: str, version: int, error_correction: str, mask: int = 0, mode = "Normal"):
         self._Qrcode__dataload(version, error_correction, mask, mode)
         self.Binaryimage = Img.image2moudlebase((version * 4 + 17), path=path)
