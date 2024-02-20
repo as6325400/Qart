@@ -72,6 +72,8 @@ class Qrcode(Encode, Canvas):
         for i in Qrcode.__LocationMask:
             # dont care
             if i[2] == 0:
+                self.Mask[i[0] + shift][i[1]] = 1
+                self.Mask[i[0]][i[1] + shift] = 1
                 self.Mask[i[0]][i[1]] = 1
     
     def __SetSeparatorPattern(self):
