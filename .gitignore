@@ -8,3 +8,7 @@ dist/
 **/test.*
 MANIFEST.in
 setup.py
+decode.ipynb
+img.png
+temp.png
+version3_origin_M_20.png

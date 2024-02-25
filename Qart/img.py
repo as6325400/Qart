@@ -118,6 +118,13 @@ class Img:
         image = Img.module_based_binarization(image, moudlesnum)
         return image
     
+    @classmethod
+    def imagemoudlebase(cls, moudlesnum, image: np.ndarray):
+        image = Img.Grayscale(image)
+        image = Img.OTSU(image)[0]
+        image = Img.module_based_binarization(image, moudlesnum)
+        return image
+    
 class Image(Img):
     def __init__(self, path: str):
         self.path = path

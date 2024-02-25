@@ -12,6 +12,13 @@ class Qart(Qrcode, Img):
         super().__init__(arg)
         return
     
+    def blend(self, img: np.ndarray, padding: int, version: int, error_correction: str, mask: int = 4, mode = "Normal"):
+        self._Qrcode__dataload(version, error_correction, mask, mode)
+        img = img[padding:-padding, padding:-padding]
+        self.Binaryimage = Img.imagemoudlebase((version * 4 + 17), img)
+        return self.__QartHandler(mode, mask=mask)
+    
+    
     def generate(self, path: str, version: int, error_correction: str, mask: int = 0, mode = "Normal"):
         self._Qrcode__dataload(version, error_correction, mask, mode)
         self.Binaryimage = Img.image2moudlebase((version * 4 + 17), path=path)

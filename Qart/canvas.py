@@ -33,4 +33,25 @@ class Canvas:
         plt.imshow(self.QR, cmap='gray')  # 'cmap' 參數控制著色映射，'gray' 表示灰階
         plt.colorbar()  # 顯示色條
         plt.show()
+        
+    def save(self, filename: str = "QRcode", padding: int = 0, module_size: int = 8):
+        pixel_num = (self.size + padding * 2) * module_size
+        image = np.full((pixel_num, pixel_num), dtype=int, fill_value=255)
+        for i in range(self.size):
+            for j in range(self.size):
+                if(self.QR[i][j] == 0):
+                    image[(i + padding) * module_size: (i + padding + 1) * module_size, (j + padding) * module_size: (j + padding + 1) * module_size] = 0
+        plt.imsave(filename + ".png", image, cmap='gray')
+        return
+    
+    def to_numpy(self, module_size: int = 8, padding: int = 0):
+        pixel_num = (self.size) * module_size + padding * 2
+        image = np.full((pixel_num, pixel_num), dtype=int, fill_value=255)
+        for i in range(self.size):
+            for j in range(self.size):
+                if(self.QR[i][j] == 0):
+                    image[(i) * module_size + padding: (i + 1) * module_size + padding, (j) * module_size + padding: (j + 1) * module_size + padding] = 0
+        return image
+    
+    
     
