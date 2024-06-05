@@ -2022,6 +2022,246 @@ PerBlockTable = {
             "num_dc_per_block_g2": 0,
             "num_ecc": 30
         }
+    },
+    "23":{
+        "L":{
+            "num_block_g1": 4,
+            "num_dc_per_block_g1": 121,
+            "num_block_g2": 5,
+            "num_dc_per_block_g2": 122,
+            "num_ecc": 30
+        },
+        "M":{
+            "num_block_g1": 4,
+            "num_dc_per_block_g1": 47,
+            "num_block_g2": 14,
+            "num_dc_per_block_g2": 48,
+            "num_ecc": 28
+        },
+        "Q":{
+            "num_block_g1": 11,
+            "num_dc_per_block_g1": 24,
+            "num_block_g2": 14,
+            "num_dc_per_block_g2": 25,
+            "num_ecc": 30
+        },
+        "H":{
+            "num_block_g1": 16,
+            "num_dc_per_block_g1": 15,
+            "num_block_g2": 14,
+            "num_dc_per_block_g2": 16,
+            "num_ecc": 30
+        }
+    },
+    "24":{
+        "L":{
+            "num_block_g1": 6,
+            "num_dc_per_block_g1": 117,
+            "num_block_g2": 4,
+            "num_dc_per_block_g2": 118,
+            "num_ecc": 30
+        },
+        "M":{
+            "num_block_g1": 6,
+            "num_dc_per_block_g1": 45,
+            "num_block_g2": 14,
+            "num_dc_per_block_g2": 46,
+            "num_ecc": 28
+        },
+        "Q":{
+            "num_block_g1": 11,
+            "num_dc_per_block_g1": 24,
+            "num_block_g2": 16,
+            "num_dc_per_block_g2": 25,
+            "num_ecc": 30
+        },
+        "H":{
+            "num_block_g1": 30,
+            "num_dc_per_block_g1": 16,
+            "num_block_g2": 2,
+            "num_dc_per_block_g2": 17,
+            "num_ecc": 30
+        }
+    },
+    "25":{
+        "L":{
+            "num_block_g1": 8,
+            "num_dc_per_block_g1": 106,
+            "num_block_g2": 4,
+            "num_dc_per_block_g2": 107,
+            "num_ecc": 26
+        },
+        "M":{
+            "num_block_g1": 8,
+            "num_dc_per_block_g1": 47,
+            "num_block_g2": 13,
+            "num_dc_per_block_g2": 48,
+            "num_ecc": 28
+        },
+        "Q":{
+            "num_block_g1": 7,
+            "num_dc_per_block_g1": 24,
+            "num_block_g2": 22,
+            "num_dc_per_block_g2": 25,
+            "num_ecc": 30
+        },
+        "H":{
+            "num_block_g1": 22,
+            "num_dc_per_block_g1": 15,
+            "num_block_g2": 13,
+            "num_dc_per_block_g2": 16,
+            "num_ecc": 30
+        }
+    },
+    "26":{
+        "L":{
+            "num_block_g1": 10,
+            "num_dc_per_block_g1": 114,
+            "num_block_g2": 2,
+            "num_dc_per_block_g2": 115,
+            "num_ecc": 28
+        },
+        "M":{
+            "num_block_g1": 19,
+            "num_dc_per_block_g1": 46,
+            "num_block_g2": 4,
+            "num_dc_per_block_g2": 47,
+            "num_ecc": 28
+        },
+        "Q":{
+            "num_block_g1": 28,
+            "num_dc_per_block_g1": 22,
+            "num_block_g2": 6,
+            "num_dc_per_block_g2": 23,
+            "num_ecc": 28
+        },
+        "H":{
+            "num_block_g1": 33,
+            "num_dc_per_block_g1": 16,
+            "num_block_g2": 4,
+            "num_dc_per_block_g2": 17,
+            "num_ecc": 30
+        }
+    },
+    "27":{
+        "L":{
+            "num_block_g1": 8,
+            "num_dc_per_block_g1": 122,
+            "num_block_g2": 4,
+            "num_dc_per_block_g2": 123,
+            "num_ecc": 30
+        },
+        "M":{
+            "num_block_g1": 22,
+            "num_dc_per_block_g1": 45,
+            "num_block_g2": 3,
+            "num_dc_per_block_g2": 46,
+            "num_ecc": 28
+        },
+        "Q":{
+            "num_block_g1": 8,
+            "num_dc_per_block_g1": 23,
+            "num_block_g2": 26,
+            "num_dc_per_block_g2": 24,
+            "num_ecc": 30
+        },
+        "H":{
+            "num_block_g1": 12,
+            "num_dc_per_block_g1": 15,
+            "num_block_g2": 28,
+            "num_dc_per_block_g2": 16,
+            "num_ecc": 30
+        }
+    },
+    "28":{
+        "L":{
+            "num_block_g1": 3,
+            "num_dc_per_block_g1": 117,
+            "num_block_g2": 10,
+            "num_dc_per_block_g2": 118,
+            "num_ecc": 30
+        },
+        "M":{
+            "num_block_g1": 3,
+            "num_dc_per_block_g1": 45,
+            "num_block_g2": 23,
+            "num_dc_per_block_g2": 46,
+            "num_ecc": 28
+        },
+        "Q":{
+            "num_block_g1": 4,
+            "num_dc_per_block_g1": 24,
+            "num_block_g2": 31,
+            "num_dc_per_block_g2": 25,
+            "num_ecc": 30
+        },
+        "H":{
+            "num_block_g1": 11,
+            "num_dc_per_block_g1": 15,
+            "num_block_g2": 31,
+            "num_dc_per_block_g2": 16,
+            "num_ecc": 30
+        }
+    },
+    "29":{
+        "L":{
+            "num_block_g1": 7,
+            "num_dc_per_block_g1": 116,
+            "num_block_g2": 7,
+            "num_dc_per_block_g2": 117,
+            "num_ecc": 30
+        },
+        "M":{
+            "num_block_g1": 21,
+            "num_dc_per_block_g1": 45,
+            "num_block_g2": 7,
+            "num_dc_per_block_g2": 46,
+            "num_ecc": 28
+        },
+        "Q":{
+            "num_block_g1": 1,
+            "num_dc_per_block_g1": 23,
+            "num_block_g2": 37,
+            "num_dc_per_block_g2": 24,
+            "num_ecc": 30
+        },
+        "H":{
+            "num_block_g1": 19,
+            "num_dc_per_block_g1": 15,
+            "num_block_g2": 26,
+            "num_dc_per_block_g2": 16,
+            "num_ecc": 30
+        }
+    },
+    "30":{
+        "L":{
+            "num_block_g1": 5,
+            "num_dc_per_block_g1": 115,
+            "num_block_g2": 10,
+            "num_dc_per_block_g2": 116,
+            "num_ecc": 30
+        },
+        "M":{
+            "num_block_g1": 19,
+            "num_dc_per_block_g1": 47,
+            "num_block_g2": 10,
+            "num_dc_per_block_g2": 48,
+            "num_ecc": 28
+        },
+        "Q":{
+            "num_block_g1": 15,
+            "num_dc_per_block_g1": 24,
+            "num_block_g2": 25,
+            "num_dc_per_block_g2": 25,
+            "num_ecc": 30
+        },
+        "H":{
+            "num_block_g1": 23,
+            "num_dc_per_block_g1": 15,
+            "num_block_g2": 25,
+            "num_dc_per_block_g2": 16,
+            "num_ecc": 30
+        }
     }
 }
 
@@ -2162,7 +2402,32 @@ VersionBitTable = {
     12: "001100011101100010",
     13: "001101100001000111",
     14: "001110011000001101",
-    15: "001111100100101000"
+    15: "001111100100101000",
+    16: "010000101101111000",
+    17: "010001010001011101",
+    18: "010010101000010111",
+    19: "010011010100110010",
+    20: "010100100110100110",
+    21: "010101011010000011",
+    22: "010110100011001001",
+    23: "010111011111101100",
+    24: "011000111011000100",
+    25: "011001000111100001",
+    26: "011010111110101011",
+    27: "011011000010001110",
+    28: "011100110000011010",
+    29: "011101001100111111",
+    30: "011110110101110101",
+    31: "011111001001010000",
+    32: "100000100111010101",
+    33: "100001011011110000",
+    34: "100010100010111010",
+    35: "100011011110011111",
+    36: "100100101100001011",
+    37: "100101010000101110",
+    38: "100110101001100100",
+    39: "100111010101000001",
+    40: "101000110001101001"
 }
 
 
