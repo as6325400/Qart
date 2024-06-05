@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 class Canvas:
     
@@ -34,7 +35,14 @@ class Canvas:
         plt.colorbar()  # 顯示色條
         plt.show()
         
-    def save(self, filename: str = "QRcode", padding: int = 0, module_size: int = 8):
+                 
+    def save(self, filename: str = "", padding: int = 0, module_size: int = 8):
+        if(filename == ""):
+            filename = time.strftime("%Y%m%d%H%M%S", time.localtime())
+        if(filename[-4:] == ".png"):
+            filename = filename[:-4]
+        if(filename[-4:] == ".jpg"):
+            filename = filename[:-4]
         pixel_num = (self.size + padding * 2) * module_size
         image = np.full((pixel_num, pixel_num), dtype=int, fill_value=255)
         for i in range(self.size):

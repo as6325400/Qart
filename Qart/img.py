@@ -3,6 +3,7 @@ import numpy as np
 import sys
 import math
 import matplotlib.pyplot as plt
+import time
 
 
 class Img:
@@ -148,3 +149,30 @@ class Image(Img):
         elif mode == "Modulebase":
             plt.imshow(self.modulebase, cmap='gray')
         plt.show()
+        
+    def save(self, filename: str = "", mode: str = "RGB"):
+        if filename == "":
+            filename = time.strftime("%Y%m%d%H%M%S", time.localtime())
+        if filename[-4:] == ".png":
+            filename = filename[:-4]
+        if filename[-4:] == ".jpg":
+            filename = filename[:-4]
+            
+        if mode == "RGB":
+            plt.imsave(filename + ".png", self.image)
+        elif mode == "Grayscale":
+            plt.imsave(filename + ".png", self.grayscale, cmap='gray')
+        elif mode == "OTSU":
+            plt.imsave(filename + ".png", self.otsu, cmap='gray')
+        elif mode == "Modulebase":
+            pixel_num = self.image.shape[0]
+            rate = pixel_num // len(self.modulebase)
+            pixel_num = len(self.modulebase) * rate
+            image = np.full((pixel_num, pixel_num), dtype=int, fill_value=255)
+            for i in range(len(self.modulebase)):
+                for j in range(len(self.modulebase)):
+                    if(self.modulebase[i][j] == 0):
+                        image[(i) * rate: (i + 1) * rate, (j) * rate: (j + 1) * rate] = 0
+            plt.imsave(filename + ".png", image, cmap='gray')
+        
+            

@@ -1,6 +1,7 @@
 from .Error import *
 from .Table import VersionTable, ModeIndicatorTable, PerBlockTable
 import reedsolo as rs
+import chardet
 
 rs.init_tables(0x11D)
 
@@ -81,9 +82,54 @@ class Encode:
             self.__EncodeText += format(ord(char), 'b').zfill(8)
         return self.__EncodeText
     
-    # def __kanjiEncodeMode(self):
+    def __kanjiEncodeMode(self):
+        # Clear any previously encoded text
+        self.__EncodeText = ""
 
+        def kanji_to_shift_jis(kanji):
+            shift_jis_code = kanji.encode('shift_jis')
+            if len(shift_jis_code) != 2:
+                raise ValueError(f"Character {kanji} is not a valid Shift JIS Kanji")
+            
+            # Convert Shift JIS bytes to integer
+            sjis_val = (shift_jis_code[0] << 8) | shift_jis_code[1]
+            
+            # Check if the Shift JIS value is in the Kanji ranges
+            if 0x8140 <= sjis_val <= 0x9FFC:
+                leading_byte = shift_jis_code[0] - 0x81
+                trailing_byte = shift_jis_code[1] - 0x40
+            elif 0xE040 <= sjis_val <= 0xEBBF:
+                leading_byte = shift_jis_code[0] - 0xC1
+                trailing_byte = shift_jis_code[1] - 0x40
+            else:
+                raise ValueError(f"Character {kanji} is not in Shift JIS Kanji range")
+            
+            # Calculate the 13-bit binary value
+            binary_value = (leading_byte << 8) + trailing_byte
+            
+            return binary_value
+
+        for char in self.__Text:
+            val = kanji_to_shift_jis(char)
+            high, low = divmod(val, 0xC0)  # 192 in decimal is 0xC0 in hexadecimal
+            sum_dec = high + low
+            bin_val = format(sum_dec, '013b')  # Convert to binary and pad with zeros to 13 bits
+            self.__EncodeText += bin_val
+
+        # print(self.__EncodeText)
+        return self.__EncodeText
+    
     def __EncodeModeController(self):
+        
+        def is_shift_jis_compatible(s):
+            try:
+                detected = chardet.detect(s.encode())
+                encoding = detected['encoding']
+                encoded = s.encode('shift_jis', errors='strict')
+                return True
+            except UnicodeEncodeError:
+                return False
+            
         if self.__Text.isdigit():
             self.__EncodeMode = "Numeric"
             self.__NumericEncodeMode()
@@ -99,8 +145,16 @@ class Encode:
             self.__EncodeMode = "Byte"
             self.__ISO_IEC_8859_1_BYTE_MODE()
             return True
-
+        
+        elif is_shift_jis_compatible(self.__Text):
+            # Kanji
+            self.__EncodeMode = "Kanji"
+            self.__kanjiEncodeMode()
+            return True
+        
         return False
+        
+
     
     def GetText(self):
         return self.__Text
@@ -110,6 +164,10 @@ class Encode:
     
     def GetEncodeMode(self):
         return self.__EncodeMode
+    
+    def SetEncodeMode(self, mode: str):
+        self.__EncodeMode = mode
+        return
     
     def __character_count_indicator(self, version: int, mode: str):
         if version < 1 or version > 40:
@@ -245,6 +303,11 @@ class Encode:
         table = Encode.__versionTable[str(version)]["ECC"][ECC]
         
         if len(self.GetText()) > table[self.GetEncodeMode()]:
+            for i in range(1, 41):
+                for j in ["L", "M", "Q", "H"]:
+                    if len(self.GetText()) <= Encode.__versionTable[str(i)]["ECC"][j][self.GetEncodeMode()]:
+                        self.__generate(i, j)
+                        return
             raise ValueError("Input data too large for specified version and ECC")
          
         self.__mode_indicator = Encode.__mode_indicator_table[self.GetEncodeMode()]
