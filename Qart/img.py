@@ -94,10 +94,13 @@ class Img:
         # assign給整個subimage，即Module
         for i in range(img_size // subimage_size):
             for j in range(img_size // subimage_size):
-                region = img[i*subimage_size:(i+1)*subimage_size,
-                             j*subimage_size:(j+1)*subimage_size]
-                value = np.round(np.sum(region * gaussian_kernel) / 255)
-                binary_img[i][j] = value * 255
+                try:
+                    region = img[i*subimage_size:(i+1)*subimage_size,
+                                j*subimage_size:(j+1)*subimage_size]
+                    value = np.round(np.sum(region * gaussian_kernel) / 255)
+                    binary_img[i][j] = value * 255
+                except:
+                    pass
         
         if modulenums > len(binary_img):
             ## copilot 寫的 不知道能不能動
