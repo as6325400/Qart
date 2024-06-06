@@ -101,3 +101,8 @@ in short, if mask[i][j] == [1, 2, 4], this point can change
    from Qart import Image
    img.show("OTSU")
    ```
+
+## Reference
+
+1. [QArt Codes](https://research.swtch.com/qart)
+2. [thonky](https://www.thonky.com/qr-code-tutorial/)
