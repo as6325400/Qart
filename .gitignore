@@ -7,7 +7,6 @@ dist/
 *.egg-info/
 **/test.*
 MANIFEST.in
-setup.py
 decode.ipynb
 img.png
 temp.png
