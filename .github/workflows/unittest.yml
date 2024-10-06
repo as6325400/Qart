@@ -18,13 +18,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 安裝系統依賴，確保 OpenCV 可以正確運行
       - name: Install OpenCV dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libgl1-mesa-glx libglib2.0-0
 
-      # 安裝 Python 依賴
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
