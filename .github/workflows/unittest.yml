@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - '**'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -38,4 +39,5 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          file: ./coverage.xml  # 指定生成的覆蓋率報告文件
+          file: ./coverage.xml  
+          token: ${{ secrets.CODECOV_TOKEN }}
