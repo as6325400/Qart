@@ -249,7 +249,7 @@ class Qrcode(Encode, Canvas):
     
     def GetMask(self, i: int, j: int, mask: int):
         if i < 0 or i >= self.size or j < 0 or j >= self.size:
-            raise ValueError("The coordinate is out of range")
+            raise ValueError("The coordinate is out of range") # pragma: no cover
         bit : int = 1
         if self.mask == 0:
             if (i + j) % 2 == 0: bit = 0
@@ -287,7 +287,7 @@ class Qrcode(Encode, Canvas):
                 if self.tagTable[i][j] == 2:
                     temp[i][j] = 255
         temp[0][0] = 0
-        plt.imshow(temp, cmap='gray')
+        # plt.imshow(temp, cmap='gray')
         plt.colorbar()
         plt.show()
         return

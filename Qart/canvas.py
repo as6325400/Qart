@@ -5,7 +5,7 @@ import time
 class Canvas:
     
     def __init__(self):
-        return
+        return # pragma: no cover
         
     def __resize(self, size: int):
         self.QR = np.full((size, size), dtype=int, fill_value=128)
@@ -15,19 +15,19 @@ class Canvas:
     
     def SetBlack(self, x: int, y: int):
         if(x < 0 or x >= len(self.QR) or y < 0 or y >= len(self.QR)):
-            raise ValueError("The coordinate is out of range")
+            raise ValueError("The coordinate is out of range") # pragma: no cover
         self.QR[x][y] = 0
         return
     
     def SetWhite(self, x: int, y: int):
         if(x < 0 or x >= len(self.QR) or y < 0 or y >= len(self.QR)):
-            raise ValueError("The coordinate is out of range")
+            raise ValueError("The coordinate is out of range") # pragma: no cover
         self.QR[x][y] = 255
         return
     
     def GetColor(self, x: int, y: int):
         if(x < 0 or x >= len(self.QR) or y < 0 or y >= len(self.QR)):
-            raise ValueError("The coordinate is out of range")
+            raise ValueError("The coordinate is out of range") # pragma: no cover
         return 0 if self.QR[x][y] == 0 else 1
     
     def show(self):

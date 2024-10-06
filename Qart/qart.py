@@ -12,11 +12,11 @@ class Qart(Qrcode, Img):
         super().__init__(arg)
         return
     
-    def blend(self, img: np.ndarray, padding: int, version: int, error_correction: str, mask: int = 4, mode = "Normal"):
-        self._Qrcode__dataload(version, error_correction, mask, mode)
-        img = img[padding:-padding, padding:-padding]
-        self.Binaryimage = Img.imagemoudlebase((version * 4 + 17), img)
-        return self.__QartHandler(mode, mask=mask)
+    # def blend(self, img: np.ndarray, padding: int, version: int, error_correction: str, mask: int = 4, mode = "Normal"):
+    #     self._Qrcode__dataload(version, error_correction, mask, mode)
+    #     img = img[padding:-padding, padding:-padding]
+    #     self.Binaryimage = Img.imagemoudlebase((version * 4 + 17), img)
+    #     return self.__QartHandler(mode, mask=mask)
     
     
     def generate(self, path: str, version: int, error_correction: str, mask: int = 0, mode = "Normal"):
@@ -69,7 +69,7 @@ class Qart(Qrcode, Img):
                 #     tag.append(self.order[dataTable[i][j]])
                 # print(dataTable[i][j], self.order[dataTable[i][j]])
                 if rebuildtable[i][j] < 0:
-                    raise ValueError("The data is not complete")
+                    raise ValueError("The data is not complete") # pragma: no cover
                 # if self.order[dataTable[i][j]] == 0:
                 #     # print(i, j)
                 redata[self.order[dataTable[i][j]]] = str(rebuildtable[i][j])

@@ -13,3 +13,5 @@ img.png
 temp.png
 version3_origin_M_20.png
 .tox
+/htmlcov/
+.coverage
