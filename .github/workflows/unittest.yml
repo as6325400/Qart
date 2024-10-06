@@ -23,16 +23,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgl1-mesa-glx libglib2.0-0
 
-      # 設置 Python 環境（這裡以 Python 為例）
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10
-      
-      # 確認 Python 版本
-      - name: Check Python version
-        run: python --version
-
       # 安裝 Python 依賴
       - name: Install dependencies
         run: |
