@@ -1,3 +1,6 @@
+# Coverage
+[![codecov](https://codecov.io/gh/as6325400/Qart/branch/main/graph/badge.svg)](https://codecov.io/gh/as6325400/Qart)
+
 # A package to blend image and Qrcode
 
 
