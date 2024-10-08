@@ -4,10 +4,18 @@
 ## Package Features Showcase
 
 <p float="left">
-  <img src="https://github.com/user-attachments/assets/75c42f5a-4a15-440e-a36f-2f4681643862" width="200" />
-  <img src="https://github.com/user-attachments/assets/b84dd1a7-48ca-4595-ad4e-bf29f401f860" width="200" />
-  <img src="https://github.com/user-attachments/assets/cd1013ec-dec4-468b-a88f-cd215ec2be85" width="200" />
+  <img src="https://github.com/user-attachments/assets/75c42f5a-4a15-440e-a36f-2f4681643862" width="30%" />
+  <img src="https://github.com/user-attachments/assets/b84dd1a7-48ca-4595-ad4e-bf29f401f860" width="30%" />
+  <img src="https://github.com/user-attachments/assets/cd1013ec-dec4-468b-a88f-cd215ec2be85" width="30%" />
 </p>
+<p float="left">
+  <img src="https://github.com/user-attachments/assets/9dc1e827-957e-41b7-9884-198898f4346c" width="30%" />
+  <img src="https://github.com/user-attachments/assets/64fcd718-97a8-4ace-9fbc-f1a97e0552f6" width="30%" />
+  <img src="https://github.com/user-attachments/assets/8e236a72-5107-4f9b-b8e9-596f6c668ac8" width="30%" />
+</p>
+
+
+
 
 ## Install
 
