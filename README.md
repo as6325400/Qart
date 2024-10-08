@@ -1,17 +1,13 @@
-# Coverage
+# A package to blend image and Qrcode
 [![codecov](https://codecov.io/gh/as6325400/Qart/branch/main/graph/badge.svg)](https://codecov.io/gh/as6325400/Qart)
 
-# show
+## Package Features Showcase
+
 <p float="left">
   <img src="https://github.com/user-attachments/assets/75c42f5a-4a15-440e-a36f-2f4681643862" width="200" />
   <img src="https://github.com/user-attachments/assets/b84dd1a7-48ca-4595-ad4e-bf29f401f860" width="200" />
   <img src="https://github.com/user-attachments/assets/cd1013ec-dec4-468b-a88f-cd215ec2be85" width="200" />
 </p>
-
-
-
-# A package to blend image and Qrcode
-
 
 ## Install
 
