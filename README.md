@@ -1,3 +1,5 @@
+
+
 # A package to blend image and Qrcode
 [![codecov](https://codecov.io/gh/as6325400/Qart/branch/main/graph/badge.svg)](https://codecov.io/gh/as6325400/Qart)
 
@@ -105,12 +107,12 @@ in short, if mask[i][j] == [1, 2, 4], this point can change
    from Qart import Image
    img = Image("1.png")
    ```
-3. **Set Moudlenums (option)**
+2. **Set ModuleNums (option)**
    ```py
    from Qart import Image
-   img.SetModuleNums(MoudleNums: int)
+   img.SetModuleNums(21)
    ```
-4. **Show**
+3. **Show**
    Four mode, "RGB" "Grayscale" "OTSU" "Modulebase"
             
    ```py
